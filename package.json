@@ -1,0 +1,24 @@
+{
+  "name": "blih_compilation_check",
+  "version": "1.0.0",
+  "description": "Continuously check if every of your blih repository compile",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/noeRls/blih_compilation_check.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/noeRls/blih_compilation_check/issues"
+  },
+  "homepage": "https://github.com/noeRls/blih_compilation_check#readme",
+  "dependencies": {
+    "cli-progress": "^2.1.1",
+    "joi": "^14.3.1",
+    "shelljs": "^0.8.3"
+  }
+}
