@@ -1,6 +1,7 @@
 const path = require('path');
 const fs = require('fs');
 const {execAsync} = require('./tools');
+const rimraf = require('rimraf');
 
 class Repo
 {
@@ -14,17 +15,26 @@ class Repo
     this.makefilePresent = false;
   }
 
-  async update(config, shelljs) {
+  async removeDirectory() {
+    return new Promise((res, rej) => {
+      rimraf(this.path, e => {
+        if (e) return rej(e);
+        return res();
+      });
+    });
+  }
+
+  async update(shelljs, blihMail) {
+    let pullSuccess = false;
     if (fs.existsSync(this.path)) {
       const res = await execAsync(shelljs, `git -C ${this.path} pull`);
-      if (res.code !== 0) {
-        this.updateFail = true;
-        this.reason = `Failed to pull ${this.name} in ${this.path}`;
-        this.out = {stdout: res.stdout, stderr: res.stderr};
-        throw this.reason;
-      }
-    } else {
-      const res = await execAsync(shelljs, `git clone git@git.epitech.eu:/${config.blih_mail}/${this.name} ${this.path}`);
+      if (res.code === 0)
+        pullSuccess = true;
+      else
+        await this.removeDirectory();
+    }
+    if (!pullSuccess) {
+      const res = await execAsync(shelljs, `git clone git@git.epitech.eu:/${blihMail}/${this.name} ${this.path}`);
       if (res.code !== 0) {
         this.updateFail = true;
         this.reason = `Failed to clone ${this.name} in ${this.path}`;
