@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  server:
+    build: .
+    environment:
+      - SAVE_PATH=/app/data
+      - BLIH_MAIL=noe.rivals@epitech.eu
+      - BLIH_PASSWORD=
+    volumes:
+      - /tmp/:/app/data/:Z
+      - ~/.ssh/:/root/sshOriginal/:ro
+    entrypoint: sh -c "cp -r /root/sshOriginal /root/.ssh/ && chmod 700 /root/.ssh && chmod 644 /root/.ssh/id_rsa.pub && chmod 600 /root/.ssh/id_rsa && node /app/src/index.js"
+    tty: true
